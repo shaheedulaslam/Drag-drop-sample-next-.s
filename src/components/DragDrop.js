@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import DragAndDropExample from './DragDrop1';
 
 export default function DragDrop() {
   const dragItem = useRef();
@@ -33,6 +34,7 @@ export default function DragDrop() {
     <>
       {list &&
         list.map((item, index) => (
+          <>
           <div
             style={{
               backgroundColor: 'lightblue',
@@ -48,12 +50,17 @@ export default function DragDrop() {
             onDragOver={(e) => e.preventDefault()} 
             onDrop={drop}
             key={index}
-            draggable
-          >
+            draggable>
             {item}
           </div>
+          </>
         ))}
+       <DragAndDropExample drop={drop} allowDrop={(e) => e.preventDefault()}/>
     </>
   );
 }
+
+
+
+
 
