@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import DragAndDropExample from "./DragDrop1";
+import DragAndDropExample from "./DragDrop1Pr2";
 
 export default function DragDrop() {
   const dragOverItem = useRef();
