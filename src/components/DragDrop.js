@@ -1,84 +1,25 @@
-// import React, { useRef, useState } from 'react';
-// import DragAndDropExample from './DragDrop1';
-
-// export default function DragDrop() {
-//   const dragItem = useRef();
-//   const dragOverItem = useRef();
-//   const [list, setList] = useState(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6']);
-
-//   const dragStart = (e, position) => {
-//     dragItem.current = position;
-//     e.target.style.cursor = 'grabbing';
-//   };
-
-//   const dragEnter = (e, position) => {
-//     dragOverItem.current = position;
-//     e.target.style.cursor = 'move'; 
-//   };
-
-//   const dragEnd = (e) => {
-//     e.target.style.cursor = 'pointer'; 
-//   };
-
-//   const drop = () => {
-//     const copyListItems = [...list];
-//     const dragItemContent = copyListItems[dragItem.current];
-//     copyListItems.splice(dragItem.current, 1);
-//     copyListItems.splice(dragOverItem.current, 0, dragItemContent);
-//     dragItem.current = null;
-//     dragOverItem.current = null;
-//     setList(copyListItems);
-//   };
-
-//   return (
-//     <>
-//       {list &&
-//         list.map((item, index) => (
-//           <>
-//           <div
-//             style={{
-//               backgroundColor: 'lightblue',
-//               margin: '20px 25%',
-//               textAlign: 'center',
-//               fontSize: '40px',
-//               cursor: 'grab', 
-//             }}
-//             onDragStart={(e) => dragStart(e, index)}
-//             onDragEnter={(e) => dragEnter(e, index)}
-//             onDragEnd={dragEnd}
-//             onDragLeave={dragEnd}
-//             onDragOver={(e) => e.preventDefault()} 
-//             onDrop={drop}
-//             key={index}
-//             draggable>
-//             {item}
-//           </div>
-//           </>
-//         ))}
-//        <DragAndDropExample drop={drop}/>
-//     </>
-//   );
-// }
-
-
-
-
-
-import React, { useRef, useState } from 'react';
-import DragAndDropExample from './DragDrop1';
+import React, { useRef, useState } from "react";
+import DragAndDropExample from "./DragDrop1";
 
 export default function DragDrop() {
   const dragOverItem = useRef();
-  const [list, setList] = useState(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6']);
+  const [list, setList] = useState([
+    "Item 1",
+    "Item 2",
+    "Item 3",
+    "Item 4",
+    "Item 5",
+    "Item 6",
+  ]);
   const [droppedItems, setDroppedItems] = useState([]);
 
   const handleDragStart = (e, index) => {
-    e.dataTransfer.setData('text/plain', index);
+    e.dataTransfer.setData("text/plain", index);
   };
-  
+
   const dragEnter = (e, position) => {
     dragOverItem.current = position;
-    e.target.style.cursor = 'move'; 
+    e.target.style.cursor = "move";
   };
 
   const handleDrop = (index) => {
@@ -93,22 +34,38 @@ export default function DragDrop() {
     setDroppedItems(updatedDroppedItems);
   };
 
+  const handleUpdateItem = (index, newText) => {
+    const updatedDroppedItems = droppedItems.map((item, i) =>
+      i === index ? newText : item
+    );
+    setDroppedItems(updatedDroppedItems);
+  };
+
   return (
     <>
-      <div className="flex justify-center flex-wrap">
-        {list.map((item, index) => (
-          <div
-            key={index}
-            onDragStart={(e) => handleDragStart(e, index)}
-            onDragEnd={(e)=> dragEnter(e,index)}
-            draggable
-            className="m-2 p-4 bg-blue-200 cursor-move"
-          >
-            {item}
-          </div>
-        ))}
+      <div className="grid grid-cols-2">
+        <div className="col-span-1 h-full">
+          {list.map((item, index) => (
+            <div
+              key={index}
+              onDragStart={(e) => handleDragStart(e, index)}
+              onDragEnd={(e) => dragEnter(e, index)}
+              draggable
+              className="m-2 p-4 bg-blue-200 cursor-move"
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+        <div className="col-span-1 h-full bg-white">
+          <DragAndDropExample
+            droppedItems={droppedItems}
+            onDrop={handleDrop}
+            onDeleteItem={handleDeleteItem}
+            onUpdateItem={handleUpdateItem}
+          />
+        </div>
       </div>
-      <DragAndDropExample droppedItems={droppedItems} onDrop={handleDrop} onDeleteItem={handleDeleteItem}/>
     </>
   );
 }
