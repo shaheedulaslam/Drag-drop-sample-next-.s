@@ -22,19 +22,23 @@ const DropZone = ({
   return (
     <div
       ref={drop}
-      className={`p-4 m-2 border-2 border-dashed border-gray-400 rounded ${
+      className={`p-8 m-2 border-2 border-dashed border-gray-400 rounded ${
         isOver ? "bg-gray-100" : ""
       }`}
     >
+       {droppedSections.length === 0 ?    
+         <div className="flex items-center justify-center">
+            <span className="text-center">+</span>
+          </div>:''
+          }
       {droppedSections.map((section, index) => (
-        <div key={index} className="mb-4 relative">
-          <h3 className="mb-2">{section.title}</h3>
+        <><div key={index} className="mb-4 relative">
+          <h3 className="mb-2">{section?.title || section?.titlesec1}</h3>
           <textarea
             rows="4"
             className="w-full p-2 border border-gray-300 rounded text-black"
             placeholder="Add content..."
-            onChange={(e) => handleAddContent(index, e.target.value)}
-          />
+            onChange={(e) => handleAddContent(index, e.target.value)} />
           <button
             onClick={() => onDeleteSection(index)}
             className="absolute top-0 right-0 animate-bounce"
@@ -52,6 +56,7 @@ const DropZone = ({
             </svg>
           </button>
         </div>
+          </>
       ))}
     </div>
   );
