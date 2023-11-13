@@ -49,8 +49,8 @@ import { useState } from "react";
           <input type="color" value={selectedColor} onChange={handleColorChange} />
         </div>
 
-        <textarea value={text} onChange={handleTextChange} className="text-black"/>
-        <p style={textStyle}>{text}</p>
+        <textarea value={text} rows={7} onChange={handleTextChange} className="text-black my-8"/>
+        <p style={textStyle} className="">{text}</p>
       </div>
     );
   };

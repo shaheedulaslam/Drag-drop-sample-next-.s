@@ -1,4 +1,5 @@
 import DragDrop from '@/components/SAMPLE1/DragDropPr1'
+import { Section1, Section2, Section3, Section4 } from '@/components/sections/Sections'
 
 export default function Home() {
   return (
@@ -7,6 +8,10 @@ export default function Home() {
       <h1 className='text-3xl text-center'>Hello Guys,</h1>
       <p className='text-center'>this is an sample project for Drag and drop here is that...</p>
         <DragDrop />
+        {/* <Section1/>
+        <Section2/>
+        <Section3/>
+        <Section4/> */}
     </div>
     </>
   )

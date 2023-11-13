@@ -80,7 +80,7 @@
 
 
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DragAndDropExample from "./DragDrop1Pr2";
 import { ParagraphInput } from "@/utils/ParagraphInput";
 import { VideoUploader } from "@/utils/VideoUploader";
@@ -100,7 +100,10 @@ const button = [
 
 export default function DragDrop() {
   const dragOverItem = useRef();
-  const [droppedItems, setDroppedItems] = useState([]);
+  const [section, setSection ] = useState([])
+  const [editedText, setEditedText] = useState("");
+
+
 
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index);
@@ -120,36 +123,49 @@ export default function DragDrop() {
     <VideoUploader />,
     'Divider is here',
   ];
-  
-  const handleDrop = (index) => {
+
+
+  const handleDrop = (index , SectionId) => {
     const content = components[index];
-    setDroppedItems((prevDroppedItems) => [...prevDroppedItems, { content }]);
+    setSection((prevSections) => {
+        return prevSections.map((item) => {
+            if (item?.sectionId === SectionId) {
+                const updatedContent = item.content ? [...item.content, content] : [content];
+                return { ...item, content: updatedContent };
+            } else {
+                return item;
+            }
+        });
+    });
+
   };
-  
+
   const handleDeleteItem = (index) => {
-    const updatedDroppedItems = droppedItems.filter((_, i) => i !== index);
-    setDroppedItems(updatedDroppedItems);
+    const updatedDroppedItems = section.filter((_, i) => i !== index);
+    setSection(updatedDroppedItems);
   };
 
   const handleUpdateItem = (index, newText) => {
-    const updatedDroppedItems = droppedItems.map((item, i) =>
+    const updatedDroppedItems = section.map((item, i) =>
       i === index ? newText : item
     );
-    setDroppedItems(updatedDroppedItems);
-
+    setSection(updatedDroppedItems);
     const updatedList = button.map((item, i) => (i === index ? newText : item));
     return updatedList
   };
 
-
   const handleAddSection = () => {
-    setDroppedItems([...droppedItems, "New Section"]); 
+    setSection([{sectionId: section && section.length !== 0 ? 'section-' + section.length : 'section-0' , content:[]},...section])
   };
+
+
+
 
   return (
     <>
-      <div className="grid grid-cols-1">
-        <div className="col-span-1 h-full">
+      <div className="grid grid-rows-2 my-12">
+      <p className="text-center text-4xl">Elementors</p>
+        <div className="flex justify-center items-center h-full">
           {button.map((item) => (
             <button
               key={item.id}
@@ -162,16 +178,17 @@ export default function DragDrop() {
               </button>
           ))}
         </div>
-      </div>
-      <div className="p-3 h-full bg-white">
-          <DragAndDropExample
-            droppedItems={droppedItems}
-            onDrop={handleDrop}
-            onDeleteItem={handleDeleteItem}
-            onUpdateItem={handleUpdateItem}
-            onAddSection={handleAddSection}
-          />
+        <div className="p-3">
+        <DragAndDropExample
+        onDrop={handleDrop}
+        onDeleteItem={handleDeleteItem}
+        onUpdateItem={handleUpdateItem}
+        onAddSection={handleAddSection}
+        section={section}
+      />
         </div>
+      </div>
+
     </>
   );
 }
