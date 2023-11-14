@@ -9,7 +9,7 @@ export const ParagraphInput = () => {
   
     return (
       <div>
-        <textarea value={text} rows={4} onChange={handleTextChange} placeholder="Write your paragraph here" className="text-black w-full"/>
+        <textarea value={text} rows={4} onChange={handleTextChange} placeholder="Write your paragraph here" className="border-2"/>
       </div>
     );
   };

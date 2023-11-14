@@ -259,6 +259,7 @@ const DragAndDropExample = ({
     e.preventDefault();
     const index = e?.dataTransfer?.getData("text/plain");
     onDrop(index, e?.target?.id);
+  
   };
 
   // const handleEdit = (index, text) => {
@@ -281,24 +282,23 @@ const DragAndDropExample = ({
   const handleAddSection = () => {
     setSelectedSection(null);
     setShowComponent(true);
-    onAddSection();
-
   };
 
   const handleSelectSection = (event) => {
     setSelectedSection(event.target.value);
     setShowComponent(true);
+    onAddSection(event.target.value);
   };
 
   const renderSelectedSection = () => {
     switch (selectedSection) {
-      case "Section1":
+      case "1":
         return <Section1 onDrop={handleDrop} children={section} onDeleteItem={onDeleteItem}/>;
-      case "Section2":
+      case "2":
         return <Section2 onDrop={handleDrop} children={section} onDeleteItem={onDeleteItem}/>;
-      case "Section3":
+      case "3":
         return <Section3 onDrop={handleDrop} children={section} onDeleteItem={onDeleteItem}/>;
-      case "Section4":
+      case "4":
         return <Section4 onDrop={handleDrop} children={section} onDeleteItem={onDeleteItem}/>;
       default:
         return null;
@@ -308,8 +308,7 @@ const DragAndDropExample = ({
 
   return (
     <>
-    <div className="grid grid-rows-1">
-    <div className="flex justify-center space-x-1">
+    <div className="flex justify-center space-x-1 border py-5 border-dashed border-black">
         <div>
           <button
             className="text-center bg-violet-600 px-2 font-bold my-1 text-xl animate-bounce rounded-full"
@@ -320,21 +319,21 @@ const DragAndDropExample = ({
         </div>
         {showComponent && (
           <div>
-            <select onChange={handleSelectSection} className="bg-blue-200 text-black px-3 py-1 rounded-xl">
+            <select onChange={handleSelectSection} className="px-3 py-1 rounded-xl">
               <option value="">Select a Section</option>
-              <option value="Section1">Section 1</option>
-              <option value="Section2">Section 2</option>
-              <option value="Section3">Section 3</option>
-              <option value="Section4">Section 4</option>
+              <option value="1">Section 1</option>
+              <option value="2">Section 2</option>
+              <option value="3">Section 3</option>
+              <option value="4">Section 4</option>
             </select>
           </div>
         )}
-      </div>
-      <div>
+     </div>
+     {showComponent && renderSelectedSection() && (
+     <div className="p-2 rounded-lg bg-slate-200 m-4">
     {showComponent && renderSelectedSection()}
-</div>
     </div>
-
+     )}
     </>
   );
 };

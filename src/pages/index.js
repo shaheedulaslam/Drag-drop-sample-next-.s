@@ -4,15 +4,11 @@ import { Section1, Section2, Section3, Section4 } from '@/components/sections/Se
 export default function Home() {
   return (
     <>
-    <div className='flex-col justify-center'>
-      <h1 className='text-3xl text-center'>Hello Guys,</h1>
-      <p className='text-center'>this is an sample project for Drag and drop here is that...</p>
         <DragDrop />
         {/* <Section1/>
         <Section2/>
         <Section3/>
         <Section4/> */}
-    </div>
     </>
   )
 }
